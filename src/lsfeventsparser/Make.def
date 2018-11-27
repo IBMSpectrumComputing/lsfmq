@@ -1,0 +1,119 @@
+
+######################################################################
+# PROJECT:  Ironwood reporing data side
+#
+# FILE:    Make.def.linux-x86_64
+#
+#
+#
+# FILE HISTORY:
+#  1) on 2006-9-19  created by guosheng
+#
+#
+#
+######################################################################
+
+#   ----------- For Linux-x86 64 bits  --------------------------
+
+# 1 default debug flag
+ DEBUG_FLAG = -g
+ CFLAG_DEBUG = $(DEBUG_FLAG)
+# 2 optimize flag O2
+OPTIMIZE_FLAG = -O2
+CFlAGE_OPTIMIZE = $(OPTIMIZE_FLAG)
+
+# 3 gcc version 3.2.3 20030502 (Red Hat Linux 3.2.3-53)
+
+GCC_DIR=/usr/bin/
+PIC_AG = -fPIC -DPIC
+
+#  i386 and x86-64 Options
+HOST_TYPE = -m64
+
+CC = $(GCC_DIR)gcc  -DLINUX64  $(PIC_AG)  $(CFLAG_DEBUG)  $(HOST_TYPE)
+
+
+# 4 system lib
+PTHREADLIB = -lpthread
+DLLIB = -ldl
+MLIB = -lm
+NONSHARELIB =  -lc_nonshared
+NSLLIB = -lnsl
+ZLIB = -lz
+RPCLIB = -lrpcsvc
+SYS_LIB = $(PTHREADLIB) $(DLLIB)  $(MLIB) $(NONSHARELIB) $(NSLLIB) $(ZLIB) $(RPCLIB)
+
+# Tar command for creating binary release
+#TARCMD = find $(BRELEASE) -type f -print | fgrep -v -f TarIgnore | tar cvaf $(BRELEASE).tar -
+
+#5  the suffix of the file
+LEXT = a
+OEXT = o
+SOEXT = so
+SHLIB_EXT = a
+
+# 6 link
+
+SHLD = $(GCC_DIR)gcc -shared
+
+# 7  for archive libraries uncomment the following lines
+LM_ARCH = linux2.6-glibc2.3-x86_64
+LD = ar
+EXTERN_LIB_LFLAGS = cru $@
+OBJNAMEFLAG = -o
+
+
+#8 JNI include path
+JNI_INC = -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux
+
+#9  LSF_EXT  x86_64  lib
+LSF_INCLUDE = -I${LSF_LIB_PATH}/../../include
+LSF_LIB = ${LSF_LIB_PATH}/libbat.a ${LSF_LIB_PATH}/liblsf.a
+
+# 10 VEM_EXT x86_64 lib
+EGO_INCLUDE = -I${EGO_TOP}/include
+EGO_LIBDIR=${EGO_TOP}/lib/linux2.6-glibc2.3-x86_64
+EGO_LIB = ${EGO_LIBDIR}/libvem.a  ${EGO_LIBDIR}/libpccutilstatic.a  ${EGO_LIBDIR}/libesc.a
+XML2_LIB = ${PERF_3RDPARTY_LIBS}/libxml2/2.6.20/linux2.6-glibc2.3-x86_64/lib/libxml2.a
+
+# 11 build out dir
+BUILD_OUT = $(TOP)/framework/lib/$(BNAME)
+
+
+#12 common lib
+COMMON_HEADER = $(TOP)/framework/c
+JNI_UTIL_LIB = ${COMMON_HEADER}/jni_util.$(LEXT)
+COMM_INC = -I$(COMMON_HEADER)
+PERF_SEC_INC = $(COMMON_HEADER)/security
+PERF_SEC_LIB = ${COMMON_HEADER}/security/perfsec.$(LEXT)
+
+#13 EGO 3rd party lib
+OPENSSL_TOP=/pcc/lsfqa-trusted/3rdparty/openssl/openssl-0.9.8c/linux2.6-glibc2.3-x86_64
+OPENSSL_LIB=$(OPENSSL_TOP)/lib/libssl.a  $(OPENSSL_TOP)/lib/libcrypto.a
+
+#14 GLB LIB
+BASE_TOP=$(EGO_TOP)/base
+GLBLIB=$(LSF_TOP)/lib/linux2.6-glibc2.3-x86_64/libglb.a $(BASE_TOP)/lib/linux2.6-glibc2.3-x86_64/lsfint.a
+GLBINCLUDE=-I $(LSF_TOP)/include -I $(BASE_TOP)/include -I $(BASE_TOP)/include/ego/kernel/modules/util
+
+#15 FLEXLM LIB
+FLEX_INC= -I${HOME}/flexlm/FLEXlm9.2.3/machind
+FLEX_PATH=${HOME}/flexlm/FLEXlm9.5/linux2.6-glibc2.3-x86_64
+FLEX_LIB=${FLEX_PATH}/liblmgr_pic.a ${FLEX_PATH}/lm_new_pic.o ${FLEX_PATH}/libcrvs_pic.a ${FLEX_PATH}/libsb_pic.a ${FLEX_PATH}/ctype_pic.o
+
+#16 PERF_SHARED_LIB
+SHARED_DIR=perf_ext
+SHARED_LIB_PATH=${PERF_TOP}
+
+#17 WSM LIBS
+WSM=${WSM_TOP}/wsmnew/linux2.4-glibc2.2-x86_64/wsm
+EVENT_LIB=${EGO_TOP}/event/linux2.6-glibc2.3-x86_64/lib/libevent.so
+VEM_LIB=${EGO_LIBDIR}/libvem.so
+
+
+#18 LICENSE COMMAND CHECK
+FVERSION = 9.5
+FLEX_INC_CHECK= -I${HOME}/flexlm/FLEXlm${FVERSION}/machind
+FLEX_INC2_CHECK= -I${HOME}/flexlm/FLEXlm${FVERSION}
+FLEX_PATH_CHECK= ${HOME}/flexlm/FLEXlm${FVERSION}/${LM_ARCH}
+FLEX_LIB_CHECK=${FLEX_PATH_CHECK}/liblmgr.a ${FLEX_PATH_CHECK}/lm_new.o ${FLEX_PATH_CHECK}/libcrvs.a ${FLEX_PATH_CHECK}/libsb.a ${FLEX_PATH_CHECK}/ctype_pic.o

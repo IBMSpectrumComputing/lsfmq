@@ -1,0 +1,100 @@
+
+######################################################################
+# PROJECT: PERF (tm) 
+#
+# FILE:    Make.misc
+#
+# Shared rules included in all Makefiles
+# Sub-makefiles must define TOP to .. or ../.. to refer to this top
+# level directory
+#
+# FILE HISTORY:
+#
+# Attached at the bottom. 
+######################################################################
+
+MAKE = make
+MAKECLEAN = make clean
+
+# Include the correct def file based on the environment variable
+# BNAME. As a last resort use the one in the TOP directory
+
+# ifeq ($(BNAME),windows)
+# DEFFILE = $(TOP)/config/Make.def.nt-x86
+# endif
+# 
+# ifeq ($(BNAME),Windows_2000)
+# DEFFILE = $(TOP)/config/Make.def.nt-x86
+# endif
+# 
+# ifeq ($(BNAME),win-x64)
+# DEFFILE = $(TOP)/config/Make.def.win2003-x64
+# endif
+# 
+# ifeq ($(BNAME),win-ia64)
+# DEFFILE = $(TOP)/config/Make.def.win2003-ia64
+# endif
+# 
+# ifeq ($(BNAME),linux-x86)
+# DEFFILE = $(TOP)/config/Make.def.linux
+# endif
+# 
+# ifeq ($(BNAME),linux-x86_64)
+# DEFFILE = $(TOP)/config/Make.def.linux-x86_64
+# endif
+# 
+# ifeq ($(BNAME),linux-ppc64)
+# DEFFILE = $(TOP)/config/Make.def.linux-ppc64
+# endif
+# 
+# ifeq ($(BNAME),linux-ia64)
+# DEFFILE = $(TOP)/config/Make.def.linux-ia64
+# endif
+# #solaris=sol7_64
+# ifeq ($(BNAME),solaris)
+# DEFFILE = $(TOP)/config/Make.def.sol7_64
+# endif
+# 
+# ifeq ($(BNAME),hpuxia64)
+# DEFFILE = $(TOP)/config/Make.def.hpux_ia64
+# endif
+# 
+# ifeq ($(BNAME),aix5_64)
+# DEFFILE = $(TOP)/config/Make.def.aix5_64
+# endif
+# 
+# ifeq ($(BNAME),irix)
+# DEFFILE = $(TOP)/config/Make.def.irix
+# endif
+# 
+# ifeq ($(BNAME),sol10_64)
+# DEFFILE = $(TOP)/config/Make.def.sol10_64
+# endif
+
+# #
+# # Default
+# #
+# ifeq ($(BNAME),)
+# DEFFILE = $(TOP)/Make.def
+# endif
+# 
+# #version
+# ifeq ($(EGO_VERSION),)
+# EGO_VERSION=1.2
+# endif
+# 
+# ifeq ($(LSF_VERSION),)
+# LSF_VERSION =7.0
+# endif
+# 
+# ifeq ($(_hpc_gui_branch),)
+# _hpc_gui_branch=mainline
+# endif
+
+THIRD_PARTY_TOP = $(HOME)/pcc/lsfqa-trusted/blue/ego_ext/3.1
+LM_ARCH = linux2.6-glibc2.3-x86
+LSF_TOP=${HOME}/pcc/lsfqa-trusted/lsf_ext/shared/${LSF_SHARED_DIR}
+
+DEFFILE = $(TOP)/Make.def
+include $(DEFFILE)
+

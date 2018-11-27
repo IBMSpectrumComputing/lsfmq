@@ -1,0 +1,177 @@
+###################### Filebeat Configuration Example #########################
+#
+# You can find the full configuration reference here:
+# https://www.elastic.co/guide/en/beats/filebeat/index.html
+
+#=========================== Filebeat inputs =============================
+
+filebeat.inputs:
+
+# Each - is an input. Most options can be set at the input level, so
+# you can use different inputs for various configurations.
+# Below are the input specific configurations.
+
+- type: log
+  # Change to true to enable this input configuration.
+  enabled: true
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /opt/zk_filebeat_test/lsb.events
+  lsf_topics: 
+    - topic_name: "lsf_events"
+      type: "job.raw"
+      include_fields:
+        - version
+        - event_type
+        - event_time
+        - event_time_utc
+        - job_id
+        - run_options
+        - num_processors
+        - submit_time
+        - user_name
+        - queue_name
+        - res_req
+        - submission_host_name
+        - cwd
+        - out_file
+        - job_name
+        - command
+        - project_name
+        - req_num_procs_max
+        - user_group_name
+        - job_arr_idx
+        - job_group
+        - sla
+        - cpu_time
+        - end_time
+        - utime
+        - stime
+        - exit_status
+        - job_status_code
+        - num_exec_hosts
+        - src_cluster_name
+        - app_profile
+        - job_status
+        - max_mem
+        - max_swap
+        - start_time
+        - exec_hosts
+        - job_description
+        - remote_cluster_name
+        - num_arr_elements
+        - job_idx_list
+        - submit_time_utc
+        - start_time_utc
+        - end_time_utc
+        - exit_info
+        - except_mask
+        - runlimit
+        - begin_time
+        - depend_cond
+      exclude_fields:
+        - job_description
+      add_fields: {cluster_name: "lsf_cluster"}
+
+    - topic_name: "lsf_job_status"
+      type: "job.status.trace"
+      add_fields: {cluster_name: "lsf_cluster"}
+
+
+- type: log
+  # Change to true to enable this input configuration.
+  enabled: true
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /opt/zk_filebeat_test/lsb.acct
+  lsf_topics: 
+    - topic_name: "lsf_acct"
+      type: "job.raw"
+      include_fields:
+        - version
+        - event_type
+        - event_time
+        - event_time_utc
+        - run_options
+        - num_processors
+        - submit_time
+        - user_name
+        - queue_name
+        - res_req
+        - submission_host_name
+        - cwd
+        - out_file
+        - job_name
+        - command
+        - project_name
+        - req_num_procs_max
+        - user_group_name
+        - job_arr_idx
+        - job_group
+        - sla
+        - cpu_time
+        - end_time
+        - utime
+        - stime
+        - exit_status
+        - job_status_code
+        - num_exec_hosts
+        - src_cluster_name
+        - app_profile
+        - job_status
+        - max_mem
+        - max_swap
+        - start_time
+        - exec_hosts
+        - job_description
+        - remote_cluster_name
+        - num_arr_elements
+        - job_idx_list
+        - submit_time_utc
+        - start_time_utc
+        - end_time_utc
+        - exit_info
+        - except_mask
+        - runlimit
+        - begin_time
+        - depend_cond
+        - exit_reason
+      add_fields: {cluster_name: "lsf_cluster"}
+      routing_keys: ["user_name", "queue_name", "project_name"]
+
+#============================= Filebeat modules ===============================
+
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+  # Period on which files under path should be checked for changes
+  # reload.period: 10s
+
+#================================ Outputs =====================================
+#output.console:
+#  pretty: true
+# Configure what output to use when sending the data collected by the beat.
+
+
+output.rocketmq:
+  hosts: ["9.111.252.126:9876"]
+# vhost: 
+  
+  codec.format:
+    string: '%{[message]}'
+
+
+#================================ Logging =====================================
+
+# Sets log level. The default log level is info.
+# Available log levels are: error, warning, info, debug
+logging.level: info
+
+# At debug level, you can selectively enable logging only for some components.
+# To enable all selectors use ["*"]. Examples of other selectors are "beat",
+# "publish", "service".
+#logging.selectors: ["*"]
