@@ -8,6 +8,7 @@
  *
  ************************************************************************/
 
+#include "strreplace.h"
 #include "json4c.h"
 #include <math.h>
 #include <stdarg.h>
@@ -121,8 +122,11 @@ void addStringToObject(Json4c *object, const char *key, char *value) {
 		return;
 	}
 
+    char *str = strreplace(value, "\"", "\\\"");
+    str = strreplace(str, "\'", "\\\'");
+
 	ksnprintf(&string->key, "%s", key);
-	ksnprintf(&string->valuestring, "%s", value);
+	ksnprintf(&string->valuestring, "%s", str);
 
 	addChild(object, string);
 }
