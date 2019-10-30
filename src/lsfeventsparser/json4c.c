@@ -123,13 +123,13 @@ void addStringToObject(Json4c *object, const char *key, char *value) {
 	}
 
     char *str = strreplace(value, "\"", "\\\"");
-    str = strreplace(str, "\'", "\\\'");
+//    str = strreplace(str, "\'", "\\\'");
 
 	ksnprintf(&string->key, "%s", key);
 	ksnprintf(&string->valuestring, "%s", str);
 
 	addChild(object, string);
-	free(str)
+	free(str);
 }
 
 void addInstanceToObject(Json4c *object, const char *key, Json4c *instance) {
