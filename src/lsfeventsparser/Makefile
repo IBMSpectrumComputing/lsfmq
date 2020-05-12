@@ -12,7 +12,7 @@ NTLIB = kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib
 NTINCLUDE = ${LSF_INCLUDE} ${JNI_INC} -I. ${COMM_INC} -I $(HOME)/includeNT
 
 # 4 obj files
-OBJS = lsbevent_parse.$(OEXT) job_array.$(OEXT) json4c.$(OEXT)
+OBJS = lsbevent_parse.$(OEXT) job_array.$(OEXT) json4c.$(OEXT) strreplace.$(OEXT)
 
 # 5 build  obj file and lib file
 
@@ -40,6 +40,9 @@ lsbevent_parse.o:   lsbevent_parse.c
 
 lsbevent_parse_test:    lsbevent_parse_test.c libreadlsbevents.so
 	@$(CC)  -D${LSF_VERSION} ${JNI_INC} ${LSF_INCLUDE} ${COMM_INC} -I. -L. -lreadlsbevents -o $@ ${EXTRA_CFLAGS} lsbevent_parse_test.c; \
+
+strreplace.o:strreplace.c
+	@$(CC)  -D${LSF_VERSION} ${JNI_INC} ${LSF_INCLUDE} ${COMM_INC} -I. -c -o $@ ${EXTRA_CFLAGS} $^; \
 
 json4c.o:json4c.c
 	@$(CC)  -D${LSF_VERSION} ${JNI_INC} ${LSF_INCLUDE} ${COMM_INC} -I. -c -o $@ ${EXTRA_CFLAGS} $^; \
